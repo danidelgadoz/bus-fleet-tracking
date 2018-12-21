@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <row id='1'>
+    <cell>AQP</cell>
+    <cell><![CDATA[AREQUIPA]]></cell>
+    <cell>-16.42369415031598</cell>
+    <cell>-71.54637948736864</cell>
+  </row>
+  <row id='2'>
+    <cell>AYA</cell>
+    <cell><![CDATA[AYACUCHO]]></cell>
+    <cell>-13.156533</cell>
+    <cell>-74.227611</cell>
+  </row>
+  <row id='3'>
+    <cell>CAJ</cell>
+    <cell><![CDATA[CAJAMARCA]]></cell>
+    <cell>-7.16561</cell>
+    <cell>-78.502589</cell>
+  </row>
+  <row id='4'>
+    <cell>CVM</cell>
+    <cell><![CDATA[CERRO VERDE]]></cell>
+    <cell>-16.475627</cell>
+    <cell>-71.616879</cell>
+  </row>
+  <row id='5'>
+    <cell>HUZ</cell>
+    <cell>HUARAZ</cell>
+    <cell>-9.527197</cell>
+    <cell>-77.527421</cell>
+  </row>
+  <row id='6'>
+    <cell>HUN</cell>
+    <cell>HUANCAYO</cell>
+    <cell>-12.060063</cell>
+    <cell>-75.210601</cell>
+  </row>
+  <row id='7'>
+    <cell>BOG</cell>
+    <cell>BOGOTA</cell>
+    <cell>4.649011</cell>
+    <cell>-74.130591</cell>
+  </row>
+  <row id='8'>
+    <cell>BSA</cell>
+    <cell><![CDATA[BUENOS AIRES]]></cell>
+    <cell>-34.584235</cell>
+    <cell>-58.375447</cell>
+  </row>
+  <row id='9'>
+    <cell>CHI</cell>
+    <cell><![CDATA[CHICLAYO]]></cell>
+    <cell>-6.77583</cell>
+    <cell>-79.837027</cell>
+  </row>
+  <row id='10'>
+    <cell>CHM</cell>
+    <cell><![CDATA[CHIMBOTE]]></cell>
+    <cell>-9.103642</cell>
+    <cell>-78.558235</cell>
+  </row>
+  <row id='11'>
+    <cell>QOS</cell>
+    <cell><![CDATA[CUSCO]]></cell>
+    <cell>-13.532715</cell>
+    <cell>-71.968142</cell>
+  </row>
+  <row id='12'>
+    <cell>GYE</cell>
+    <cell><![CDATA[GUAYAQUIL]]></cell>
+    <cell>-2.141721</cell>
+    <cell>-79.879239</cell>
+  </row>
+  <row id='13'>
+    <cell>ICA</cell>
+    <cell><![CDATA[ICA]]></cell>
+    <cell>-14.063748</cell>
+    <cell>-75.733803</cell>
+  </row>
+  <row id='14'>
+    <cell>ILO</cell>
+    <cell><![CDATA[ILO]]></cell>
+    <cell>-17.646026</cell>
+    <cell>-71.346727</cell>
+  </row>
+  <row id='15'>
+    <cell>XXX</cell>
+    <cell>HUAURA</cell>
+    <cell>-11.073228</cell>
+    <cell>-77.599221</cell>
+  </row>
+  <row id='16'>
+    <cell>XXX</cell>
+    <cell>JAUJA</cell>
+    <cell>-11.778125</cell>
+    <cell>-75.496408</cell>
+  </row>
+  <row id='17'>
+    <cell>XXX</cell>
+    <cell>JULIACA</cell>
+    <cell>-15.491732</cell>
+    <cell>-70.121894</cell>
+  </row>
+  <row id='18'>
+    <cell>LIM</cell>
+    <cell><![CDATA[LIMA]]></cell>
+    <cell>-12.08877</cell>
+    <cell>-77.016969</cell>
+  </row>
+  <row id='19'>
+    <cell>XXX</cell>
+    <cell><![CDATA[MOQUEGUA]]></cell>
+    <cell>-17.189925</cell>
+    <cell>-70.946759</cell>
+  </row>
+  <row id='20'>
+    <cell>NAZ</cell>
+    <cell><![CDATA[NASCA]]></cell>
+    <cell>-14.827959</cell>
+    <cell>-74.942418</cell>
+  </row>
+  <row id='21'>
+    <cell>XXX</cell>
+    <cell><![CDATA[PARACAS]]></cell>
+    <cell>-13.829315</cell>
+    <cell>-76.244838</cell>
+  </row>
+  <row id='22'>
+    <cell>GYE</cell>
+    <cell><![CDATA[GUAYAQUIL]]></cell>
+    <cell>-2.141721</cell>
+    <cell>-79.879239</cell>
+  </row>
+  <row id='23'>
+    <cell>PIU</cell>
+    <cell><![CDATA[PIURA]]></cell>
+    <cell>-5.199753</cell>
+    <cell>-80.626927</cell>
+  </row>
+  <row id='24'>
+    <cell>PMA</cell>
+    <cell><![CDATA[PUERTO MALDONADO]]></cell>
+    <cell>-17.646026</cell>
+    <cell>-71.346727</cell>
+  </row>
+  <row id='25'>
+    <cell>PUN</cell>
+    <cell>PUNO</cell>
+    <cell>-15.842734</cell>
+    <cell>-70.01632</cell>
+  </row>
+  <row id='26'>
+    <cell>XXX</cell>
+    <cell>JAUJA</cell>
+    <cell>-11.778125</cell>
+    <cell>-75.496408</cell>
+  </row>
+  <row id='27'>
+    <cell>XXX</cell>
+    <cell>QUILCA</cell>
+    <cell>-12.050841</cell>
+    <cell>-77.041921</cell>
+  </row>
+  <row id='28'>
+    <cell>SCL</cell>
+    <cell><![CDATA[SANTIAGO DE CHILE]]></cell>
+    <cell>-33.453355</cell>
+    <cell>-70.687657</cell>
+  </row>
+  <row id='29'>
+    <cell>SUL</cell>
+    <cell><![CDATA[SULLANA]]></cell>
+    <cell>-4.911123</cell>
+    <cell>-80.697051</cell>
+  </row>
+  <row id='30'>
+    <cell>TAC</cell>
+    <cell><![CDATA[TACNA]]></cell>
+    <cell>-18.004253</cell>
+    <cell>-70.258213</cell>
+  </row>
+    <row id='31'>
+    <cell>TAL</cell>
+    <cell><![CDATA[TALARA]]></cell>
+    <cell>-4.586604</cell>
+    <cell>-81.270222</cell>
+  </row>
+  <row id='32'>
+    <cell>TRU</cell>
+    <cell><![CDATA[TRUJILLO]]></cell>
+    <cell>-8.103261</cell>
+    <cell>-79.023785</cell>
+  </row>
+  <row id='33'>
+    <cell>TUM</cell>
+    <cell><![CDATA[TUMBES]]></cell>
+    <cell>-3.567472</cell>
+    <cell>-80.459173</cell>
+  </row>
+  <row id='34'>
+    <cell>YAL</cell>
+    <cell><![CDATA[YAULI]]></cell>
+    <cell>-11.627643</cell>
+    <cell>-76.058985</cell>
+  </row>
+</rows>

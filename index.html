@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Seguimiento de Flota - Transportes Cruz del Sur</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!-- https://design.google.com/icons/#ic_view_list -->
+
+	<link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">  	    
+    <link rel="stylesheet" href="libs/jqGrid/css/trirand/ui.jqgrid-bootstrap.css">    	
+    <link rel="stylesheet" href="libs/angular-material/angular-material.css">
+
+	<link rel="stylesheet" href="css/stylestcs.css">
+
+	<style>
+		.short{
+			margin: 5px 0px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="container" ng-controller="mainAppCtrl" layout="column" ng-cloak="" class="sidenavdemoBasicUsage" ng-app="MyApp">
+		<section id="section" layout="row" flex="">
+			<md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('min-width: 1400px')" md-disable-backdrop="" md-whiteframe="10" style="background-color: #004579; width: 300px;"><!-- style="background-color: #004579;"-->
+				<md-toolbar md-theme="default">		<!-- md-theme= default / altTheme-->			
+					<div class="md-toolbar-tools">
+						<h1 class="md-toolbar-tools" style="color: #FFB300;">Menu</h1><!--style="color: #FFB300;"-->
+						<span flex></span>
+						<md-button class="md-icon-button" ng-click="closeSideNav()">
+							<md-icon aria-label="Menu" class="material-icons">clear</md-icon>
+						</md-button>
+					</div>
+				</md-toolbar>
+
+				<md-content md-theme="altTheme" layout-padding="" style="padding: 0px; "> <!--md-theme="altTheme"-->
+					<md-list ng-controller="menuListCtrl" ng-cloak="" class="listdemoListControls" style="font-size: 14px; padding: 0px;"> 
+						<md-subheader class="md-no-sticky">Aplicaciones principales</md-subheader>
+						<md-list-item ng-click="modalTransbordoMD()">
+					        <md-icon aria-label="Menu" class="material-icons">airport_shuttle</md-icon>
+				    		<p>Generar Transbordo</p>
+				      	</md-list-item> 
+				      	<md-list-item ng-click="openModalTrazarRuta()">
+					        <md-icon aria-label="Menu" class="material-icons">exit_to_app</md-icon>
+				    		<p>Trazar Ruta</p>
+				      	</md-list-item>   
+				      	<md-list-item ng-click="openModalAproximaciones()">
+					        <md-icon aria-label="Menu" class="material-icons">watch_later</md-icon>
+				    		<p>Recorrido/Tiempo</p>
+				      	</md-list-item>
+				      	<md-list-item ng-click="openModalGeocercas()">
+					        <md-icon aria-label="Menu" class="material-icons">list</md-icon>
+				    		<p>Listar Geocercas</p>
+				      	</md-list-item>
+				      	<md-list-item ng-click="openModalRegistrarGeocerca()"><!--id="createPolygon"-->
+					        <md-icon aria-label="Menu" class="material-icons">save</md-icon>
+				    		<p>Registrar Geocerca</p>
+				      	</md-list-item>
+
+				      	<md-divider ng-if="!$last"></md-divider>
+
+						<md-subheader class="md-no-sticky">Objetos del Mapa</md-subheader>
+				      	<md-list-item>
+							<md-icon aria-label="Menu" class="material-icons">traffic</md-icon>
+							<p style="min-width: 160px;"> Trafico </p>							
+							<md-switch ng-model="trafico" ng-change="onChangeTrafic(trafico)" class="md-accent" style="margin: 0px;"></md-switch>
+				      	</md-list-item>
+				      	<md-list-item>
+							<md-icon aria-label="Menu" class="material-icons">brush</md-icon>
+							<p style="min-width: 160px;"> Drawing Manager </p>
+							<md-switch ng-model="drawingTools" ng-change="onChangeDrawing(drawingTools)" class="md-primary" style="margin: 0px;"></md-switch>
+				      	</md-list-item>	
+				      	<md-list-item>
+				      		<md-icon aria-label="Menu" class="material-icons">public</md-icon>
+				      		<md-select placeholder="Tipo de Mapa" ng-model="mapa" md-on-open="loadMapTypes()"  style="min-width: 200px; margin: 0px; margin-right: 50px;">
+						      <md-option ng-value="mapa" ng-repeat="mapa in mapType" ng-click="onChangeMapType(mapa)">
+						      {{mapa.description}}
+						      </md-option>
+						    </md-select>
+				      	</md-list-item>			      	
+				      	<md-list-item ng-click="cleanMap()">
+					        <md-icon aria-label="Menu" class="material-icons">redo</md-icon>
+				    		<p>Limpiar Mapa</p>
+				      	</md-list-item> 
+
+				      	<md-divider ng-if="!$last"></md-divider>
+
+				      	<md-subheader class="md-no-sticky">Otras aplicaciones</md-subheader>
+				      	<md-list-item ng-click="openModalEmularRuta()">
+					        <md-icon aria-label="Menu" class="material-icons">gesture</md-icon>
+				    		<p>Emular Ruta (Geocerca)</p>
+				      	</md-list-item> 				      					      	
+				    <!-- 
+				      	<md-list-item ng-click="navigateTo('data usage', $event)">
+					        <md-icon aria-label="Menu" class="material-icons">search</md-icon>
+				    		<p>Ubicar por descripcion </p>
+				      	</md-list-item> 
+				    -->
+				      	<md-list-item ng-click="openModalUbicarLatLng()"><!--showAlert('Servicio inoperativo, espere actualizacion de sistemas', $event)-->
+					        <md-icon aria-label="Menu" class="material-icons">room</md-icon>
+				    		<p>Ubicar por coordenadas</p>
+				      	</md-list-item>					
+				      
+				      	<div id="dialogTransbordo" style="width: 100%; height: 290px;">				            
+				            <table class="table table-striped table-bordered table-hover table-condensed table-responsive tabletransbordo" style="margin-bottom: 0px">				                
+				                <thead>
+				                    <tr>
+				                        <th>N°</th>
+				                        <th>Unidad</th>
+				                        <th>Distancia</th>
+				                        <th>Tiempo</th>
+				                        <th>Ruta</th>
+				                        <th>Asientos</th>
+				                        <th>Ocupados</th>
+				                        <th>Libres</th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+			                       <tr ng-repeat="x in transbordoData" ng-click="markerEffect(x.unidad)">
+			                       		<td>{{x.id}}</td>
+			                       		<td>{{x.unidad}}</td>
+			                       		<td>{{x.distancia}}</td>
+			                       		<td>{{x.tiempo}}</td>
+			                       		<td>{{x.ruta}}</td>
+			                       		<td>{{x.asientos}}</td>
+			                       		<td class="row-ocupados">{{x.ocupados}}</td>
+			                       		<td class="row-libres">{{x.libres}}</td>
+			                       </tr>
+				                </tbody>
+				            </table>
+				        </div>				        
+				    </md-list>
+				</md-content>
+			</md-sidenav>
+						        	
+			<md-content flex="" layout-padding="" style="height: 100%; padding:0px;">				
+				<div id="map"></div>
+				
+				<div id="gridPane" style="padding: 0px;">					
+		            <table id="jqGridUnidades" class="table table-striped table-bordered table-hover table-condensed table-responsive hoverTable" style="font-size: 11px; font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;">		            	
+		            </table>
+            		<div id="jqGridPagerUnidades"></div>
+		        </div> 
+			</md-content>
+		</section>
+		
+		<div id="toolbar" style="top:1px; right:1px; display:block; width:55px; height:55px; position:absolute; background-repeat:no-repeat; text-align:center;">
+			<md-button md-theme="altTheme" class="md-accent md-fab md-mini" aria-label="Use Android" ng-click="toggleLeft()" ng-hide="isOpenSideNav()">
+            	<md-icon aria-label="Menu" class="material-icons">view_list</md-icon>
+        	</md-button>
+		</div>
+
+		<!-- Modal Destinos (nunca se muestra - no visible)-->
+		<div class="modal fade" id="modalDestinos" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div>
+					    <table id="jqGridDestinos"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal trazar Ruta-->
+		<div class="modal fade" id="modalTazarRuta" role="dialog" ng-controller="trazarRutaCtrl">
+			<div class="modal-dialog modal-md">
+			  	<div class="modal-content">
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal" ng-click="cleanFieldsTR()">&times;</button>
+				      <h5 class="modal-title">Trazar de ruta</h5>
+				    </div>
+
+				    <div class="modal-body">
+				    	<form name="showRuta">
+					      	<div layout-gt-sm="row">			      		
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Unidad</label>
+							        <input required md-no-asterisk name="unidad" md-maxlength="5" minlength="5" ng-model="unidad" ng-change="buttonChangeState();">
+							        <div ng-messages="showRuta.unidad.$error">							        	
+							          	<div ng-message="required">Unidad requerida</div>
+								        <div ng-message="md-maxlength">Unidad debe contener 5 caracteres</div>
+								        <div ng-message="minlength">Unidad debe contener 5 caracteres</div>
+								    </div>									          
+						        </md-input-container>
+						    </div>
+						    <p class="text-danger text-center" ng-show="errorRuta.state"><strong>{{errorRuta.msj}}</strong></p>
+					    </form>
+				    </div>
+				    
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-default"  ng-disabled="buttonDisabled" ng-click="showRutaTrazada()">Aceptar</button>
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal Aproximaciones-->
+		<div class="modal fade" id="modalAproximaciones" role="dialog" ng-controller="aproximacionesCtrl">
+			<div class="modal-dialog modal-md">
+			  	<div class="modal-content" >
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal" ng-click="cleanFields()">&times;</button>
+				      <h5 class="modal-title">Recorrido/Tiempo</h5>
+				    </div>
+
+				    <div class="modal-body">
+				    	<form name="showAprox">
+					      	<div layout-gt-sm="row">			      		
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Unidad</label>
+							        <input required md-no-asterisk name="unidad" md-maxlength="5" minlength="5" ng-model="unidad" ng-change="buttonChangeState();">
+							        <div ng-messages="showAprox.unidad.$error">								        	
+							          	<div ng-message="required">Unidad requerida</div>
+								        <div ng-message="md-maxlength">Unidad debe contener 5 caracteres</div>
+								        <div ng-message="minlength">Unidad debe contener 5 caracteres</div>
+								    </div	
+						        </md-input-container>
+					
+						        <button type="button" class="btn btn-primary btn-xs" ng-disabled="buttonDisabled" ng-click="showAproximaciones()" style="margin: 15px 0px;">Calcular</button>
+						        <span class="text-info" ng-show="loading" style="padding-left: 10px;">Procesando, espere un momento ...</span>
+								
+								<div ng-show="showAproxRspta">
+									<ul class="list-unstyled">    
+										<li><span>- Origen: </span><strong>{{origen.ciudad}} <small>{{origen.descripcion}}</small></strong></li>
+										<li><span>- Destino: </span><strong>{{destino.ciudad}} <small>{{destino.descripcion}}</small></strong></li>
+										<li class="text-success"><span>- Ubicacion Actual: </span><strong>{{ubicacionAct}}</strong></li>
+									</ul> 
+
+							        <table class="table table-striped table-bordered table-hover table-condensed table-responsive tabletransbordo" style="margin-bottom: 0px">				                
+						                <thead>
+						                    <tr>
+						                        <th style="width:20%; color:#e72331;">{{ruta}}</th>
+						                        <th style="width:40%">Distancia</th>
+						                        <th style="width:40%">Tiempo</th>
+						                    </tr>
+						                </thead>
+						                <tbody>
+						                   	<tr>
+								           		<td style="text-align:left; padding-left: 20px;">Recorrido</td>
+								           		<td>{{recorrido.distancia}}</td>
+								           		<td>{{recorrido.tiempo}}</td>
+						                   	</tr>
+						                   	<tr class="danger">
+								           		<td style="text-align:left; padding-left: 20px;">Restante</td>
+								           		<td>{{restante.distancia}}</td>
+								           		<td>{{restante.tiempo}}</td>
+						                   	</tr>
+						                   	<tr>
+								           		<td style="text-align:left; padding-left: 20px;">Total</td>
+								           		<td>{{total.distancia}}</td>
+								           		<td>{{total.tiempo}}</td>
+						                   	</tr>
+						                </tbody>
+						            </table>
+					            </div>
+								
+								<p class="text-danger text-center" ng-show="errorAprx.state"><strong>{{errorAprx.msj}}</strong></p>
+
+					            <p class="text-muted" style="padding-top: 15px;">
+					            	<em>* El tiempo es aproximado segun distancia y trafico en carretera, no considera paradas de la unidad.</em><br>
+									<em>** La distancia considera tramos de carreteras (o autopistas). Si alguna unidad no esta en carretera la aplicacion la aproxima a la mas cercana perpendicularmente.</em>
+					            </p>
+						    </div>
+					    </form>
+				    </div>
+
+				    <div class="modal-footer">
+				      <button type="button" data-dismiss="modal" class="btn btn-default" ng-click="cleanFields()">OK</button>
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal listar geocercas-->
+		<div class="modal fade" id="modalGeocercas" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h5 class="modal-title">Listado de geocercas</h5>
+					</div>
+					<div class="modal-body" id="divGeocercasList" style="width: 100%;">
+				  		<table id="jqGridGeocercas" class="table table-striped table-bordered table-hover table-condensed table-responsive"></table>
+	            		<div id="jqGridPagerGeocercas"></div>
+					</div>
+					<div class="modal-footer">				  		
+				  		<input class="btn btn-default" type="button" value="Dibujar geocercas selecionadas" data-dismiss="modal" onclick="getSelectedRows()" />        
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal Geocerca Data For Database-->
+		<div class="modal fade" id="modalGeocercaData" role="dialog" ng-controller="geocercaDataCtrl">
+			<div class="modal-dialog modal-md">
+			  	<div class="modal-content" >
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal" ng-click="cleanFields()">&times;</button>
+				      <h5 class="modal-title">Ingresar datos de la geocerca</h5>
+				    </div>
+
+				    <div class="modal-body">
+				    	<md-content layout-padding="">
+						    <form name="geocercaDataForm">
+								<md-input-container class="md-block">
+									<label>ID ruta</label>
+									<input md-maxlength="6" required="" md-no-asterisk="" minlength="6" name="idRuta" ng-model="geocerca.idRuta">
+									
+									<div ng-messages="geocercaDataForm.idRuta.$error">
+										<div ng-message="required">ID ruta requerido</div>
+								        <div ng-message="md-maxlength">ID de ruta debe contener 6 caracteres.</div>
+								        <div ng-message="minlength">de ruta debe contener 6 caracteres.</div>
+								    </div>							        								          	
+								</md-input-container>
+
+					      		<md-input-container class="md-block">
+							        <label>ID plantilla</label>
+							        <input required md-no-asterisk md-maxlength="4" minlength="4" name="idPlantilla" ng-model="geocerca.idPlantilla">
+
+							        <div ng-messages="geocercaDataForm.idPlantilla.$error">
+							          	<div ng-message="required">ID plantilla requerido</div>
+								        <div ng-message="md-maxlength">ID de plantilla debe contener 4 caracteres.</div>
+								        <div ng-message="minlength">ID de plantilla debe contener 4 caracteres.</div>
+								    </div>
+						      	</md-input-container>	
+						      	
+						      	<md-input-container class="md-block">
+									<label>Descripcion</label>		
+									<input required="" name="descripcion" ng-model="geocerca.descripcion">
+
+									<div ng-messages="geocercaDataForm.descripcion.$error">
+										<div ng-message="required">Descripcion requerida.</div>
+									</div>
+						      	</md-input-container>
+
+						      	<md-input-container class="md-block">
+						      		<label>Velocidad maxima</label>
+						      		<input required md-no-asterisk md-maxlength="3" name="maxVelocidad" ng-model="geocerca.maxVelocidad">
+						      		<div ng-messages="geocercaDataForm.maxVelocidad.$error">
+						      			<div ng-message="required">Velocidad maxima requerida.</div>
+						      			<div ng-message="md-maxlength">Velocidad maxima debe contener 3 cifras.</div>
+						      		</div>
+						      	</md-input-container>
+						    </form>
+						</md-content>
+				    </div>
+
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="registarGeocerca()">Registar</button>
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal Emular Ruta-->
+		<div class="modal fade" id="modalEmularRuta" role="dialog" ng-controller="emularRutaCtrl">
+			<div class="modal-dialog modal-md">
+			  	<div class="modal-content" >
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h5 class="modal-title">Emular ruta</h5>
+				    </div>
+
+				    <div class="modal-body">
+				    	<form name="drawTramo">
+				    		<p class="text-muted">Punto de inicio</p>
+					      	<div layout-gt-sm="row">			      		
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Latitud</label>
+							        <input required md-no-asterisk name="latitud1" ng-model="coordenadas.origenLat" ng-change="buttonChangeState();">
+							        <div ng-messages="drawTramo.latitud1.$error">							        	
+							          <div ng-message="required">Ingrese latitud.</div>
+							        </div>
+						        </md-input-container>
+						        <div flex="5" hide-xs hide-sm>
+						          <!-- Spacer //-->
+						        </div>
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Longitud</label>
+							        <input required md-no-asterisk name="longitud1" ng-model="coordenadas.origenLng" ng-change="buttonChangeState();">
+							        <div ng-messages="drawTramo.longitud1.$error">							        	
+							          <div ng-message="required">Ingrese longitud.</div>
+							        </div>
+						        </md-input-container>
+						    </div>
+						    <p class="text-muted">Punto de fin</p>
+					      	<div layout-gt-sm="row">			      		
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Latitud</label>
+							        <input required md-no-asterisk name="latitud2" ng-model="coordenadas.destinoLat" ng-change="buttonChangeState();">
+							        <div ng-messages="drawTramo.latitud2.$error">							        	
+							          <div ng-message="required">Ingrese latitud.</div>
+							        </div>
+						        </md-input-container>
+						        <div flex="5" hide-xs hide-sm>
+						          <!-- Spacer //-->
+						        </div>
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Longitud</label>
+							        <input required md-no-asterisk name="longitud2" ng-model="coordenadas.destinoLng" ng-change="buttonChangeState();">
+							        <div ng-messages="drawTramo.longitud2.$error">							        	
+							          <div ng-message="required">Ingrese longitud.</div>
+							        </div>
+						        </md-input-container>
+						    </div>
+					    </form>
+				    </div>
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="buttonDisabled" ng-click="emularRutaNow()">Aceptar</button>
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal Ubicar LatLng -->
+		<div class="modal fade" id="modalUbicarLatLng" role="dialog" ng-controller="UbicarLatLngCtrl">
+			<div class="modal-dialog modal-md">
+			  	<div class="modal-content" >
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h5 class="modal-title">Ubicar segun coordenadas</h5>
+				    </div>
+
+				    <div class="modal-body">
+				    	<form name="localeCoordForm">
+				    		<p class="text-muted">Coordenadas</p>
+					      	<div layout-gt-sm="row">			      		
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Latitud</label>
+							        <input required md-no-asterisk name="latitud" ng-model="coordenada.lat" ng-change="buttonChangeState();">
+							        <div ng-messages="localeCoordForm.latitud.$error">							        	
+							          <div ng-message="required">Ingrese latitud.</div>
+							        </div>
+						        </md-input-container>
+						        <div flex="5" hide-xs hide-sm>
+						          <!-- Spacer //-->
+						        </div>
+						        <md-input-container class="md-block" flex-gt-sm>
+						          	<label>Longitud</label>
+							        <input required md-no-asterisk name="longitud" ng-model="coordenada.lng" ng-change="buttonChangeState();">
+							        <div ng-messages="localeCoordForm.longitud.$error">							        	
+							          <div ng-message="required">Ingrese longitud.</div>
+							        </div>
+						        </md-input-container>
+						    </div>
+					    </form>
+				    </div>
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="buttonDisabled" ng-click="ubicarLatLngNow()">Aceptar</button>
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal Registrar coordenada LatLng -->
+		<div class="modal fade" id="modalRegistrarGeocerca" role="dialog" ng-controller="registroGeocercaFormCtrl">
+			<div class="modal-dialog modal-lg">
+			  	<div class="modal-content" >
+				    <div class="modal-header">
+				      <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      <h5 class="modal-title">Registro de geocerca</h5>
+				    </div>
+
+				    <div class="modal-body" layout="row" flex="100">
+				    	<div flex="35" layout="">
+					    	<form name="geocercaDataForm" flex="100">
+								<p class="text-muted" style="margin-bottom: 30px;">DATOS</p>
+
+								<md-input-container class="md-block">
+									<label>ID ruta</label>
+									<input md-maxlength="6" required="" md-no-asterisk="" minlength="6" name="idRuta" ng-model="geocerca.idRuta">
+									
+									<div ng-messages="geocercaDataForm.idRuta.$error">
+										<div ng-message="required">ID ruta requerido</div>
+								        <div ng-message="md-maxlength">ID de ruta debe contener 6 caracteres.</div>
+								        <div ng-message="minlength">de ruta debe contener 6 caracteres.</div>
+								    </div>							        								          	
+								</md-input-container>
+
+					      		<md-input-container class="md-block">
+							        <label>ID plantilla</label>
+							        <input required md-no-asterisk md-maxlength="4" minlength="4" name="idPlantilla" ng-model="geocerca.idPlantilla">
+
+							        <div ng-messages="geocercaDataForm.idPlantilla.$error">
+							          	<div ng-message="required">ID plantilla requerido</div>
+								        <div ng-message="md-maxlength">ID de plantilla debe contener 4 caracteres.</div>
+								        <div ng-message="minlength">ID de plantilla debe contener 4 caracteres.</div>
+								    </div>
+						      	</md-input-container>	
+						      	
+						      	<md-input-container class="md-block">
+									<label>Descripcion</label>		
+									<input required="" name="descripcion" ng-model="geocerca.descripcion">
+
+									<div ng-messages="geocercaDataForm.descripcion.$error">
+										<div ng-message="required">Descripcion requerida.</div>
+									</div>
+						      	</md-input-container>
+
+						      	<md-input-container class="md-block">
+						      		<label>Velocidad maxima</label>
+						      		<input required md-no-asterisk md-maxlength="3" name="maxVelocidad" ng-model="geocerca.maxVelocidad">
+						      		<div ng-messages="geocercaDataForm.maxVelocidad.$error">
+						      			<div ng-message="required">Velocidad maxima requerida.</div>
+						      			<div ng-message="md-maxlength">Velocidad maxima debe contener 3 cifras.</div>
+						      		</div>
+						      	</md-input-container>
+						    </form>
+					    </div>
+					    <div flex="65" style="margin-left: 25px; padding: 0px 25px; border-left: 1px solid #004579;">
+					    	<form name="localeCoordForm">
+					    		<p class="text-muted" style="margin-bottom: 30px;">COORDENADAS</p>
+						      	<div layout-gt-sm="row" ng-repeat="x in coordenadas">
+							        <md-input-container class="short md-block" flex-gt-sm>
+							          	<label>Latitud</label>
+								        <input required md-no-asterisk name="latitud" ng-model="x.latitud">
+							        </md-input-container>
+							        <div flex="5" hide-xs hide-sm></div>
+							        <md-input-container class="short md-block" flex-gt-sm>
+							          	<label>Longitud</label>
+								        <input required md-no-asterisk name="longitud" ng-model="x.longitud">
+							        </md-input-container>
+							    </div>
+							    <md-button md-no-ink class="md-primary" style="float: right;" ng-click="AddVertice()">Agregar Vertice</md-button>
+							    <md-button md-no-ink class="md-warn" style="float: right;" ng-click="CleanCoords()">Nuevas coordenadas</md-button>
+						    </form>
+					    </div>
+				    </div>
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-default" data-dismiss="modal" ng-disabled="buttonDisabled" ng-click="Registrar()">Guardar Geocerca</button>	
+				      <!-- <md-button class="md-raised md-primary" data-dismiss="modal" ng-click="ubicarLatLngNow()">Guardar Geocerca</md-button>			       -->
+				    </div>
+			  </div>			  
+			</div>
+		</div>
+
+		<!-- Modal permiso para registrar-->
+		<div class="modal fade" id="confirmGeocerca" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h5 class="modal-title">Deseas registrar la geocerca?</h5>
+					</div>
+				<div class="modal-body">
+			  		<p>Si acepta se registraran las coordenadas de la geocerca en base de datos</p>
+				</div>
+				<div class="modal-footer">
+			  		<button type="button" class="btn btn-default" onclick="$('#modalGeocercaData').modal();" data-dismiss="modal">Aceptar</button>
+			  		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				</div>
+				</div>
+			</div>
+		</div>		
+
+		<!-- Modal Aviso de registro exitoso-->
+		<div class="modal fade" id="modalRegistroExitoso" role="dialog">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">	
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h5 class="modal-title">AVISO</h5>
+					</div>				
+					<div class="modal-body">
+				  		<p>Se ha registrado la geocerca en base de datos. Verifique el listado nuevamente.</p>
+					</div>
+					<div class="modal-footer">
+				  		<button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/ng-template" id="dialog1.tmpl.html">
+			<md-dialog aria-label="Transbordo"  ng-cloak style="min-width: 450px;">
+				<form >
+					<md-toolbar>
+						<div class="md-toolbar-tools">
+							<h2>Transbordo</h2>
+							<span flex></span>
+							<md-button class="md-icon-button" ng-click="cancel()">
+								<md-icon aria-label="Menu" class="material-icons">clear</md-icon>
+							</md-button>
+						</div>
+					</md-toolbar>
+
+					<md-dialog-content>
+						<div class="md-dialog-content" style="padding: 0px 20px 10px 20px;">
+					    	<md-content layout-padding="">
+								<div>
+									<form name="transbordoForm">
+										<md-input-container class="md-block">
+											<label>Unidad</label>
+											<input required md-no-asterisk name="unidad" ng-model="unidad" ng-change="buttonState();">
+											<div ng-messages="transbordoForm.unidad.$error">							        	
+									          	<div ng-message="required">Unidad requerida</div>
+										    </div>									
+										</md-input-container>
+										<md-input-container class="md-block">
+											<label>Filtro</label>
+											<md-select placeholder="Filtro" ng-model="tipo"  ng-change="buttonState();" style="min-width: 200px;">
+										    	<md-option ng-value="tipo" ng-repeat="tipo in transbordoType">
+										    		{{tipo.description}}
+									    		</md-option>
+										    </md-select>
+									    </md-input-container>
+									</form>
+									<p class="text-danger text-center" ng-show="errorTransbordo.state"><strong>{{errorTransbordo.msj}}</strong></p>
+								</div>
+							</md-content>
+						</div>
+					</md-dialog-content>
+
+					<md-dialog-actions layout="row">
+					  <md-button ng-click="startTransbordox(unidad, tipo)" ng-disabled="buttonDisable" style="margin-right:20px;">
+					    Aceptar
+					  </md-button>
+					</md-dialog-actions>
+				</form>
+			</md-dialog>
+		</script>			
+    </div>
+	  	  
+	<!-- Google map Library -->		
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDSdD9RHz1vrCg7zHc03_JeYkblx1KiJiE&libraries=drawing"></script>	
+
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-animate/angular-animate.min.js"></script>
+    <script src="libs/angular-aria/angular-aria.min.js"></script>
+    <script src="libs/angular-messages/angular-messages.min.js"></script>
+	
+    <!-- Angular Material Library -->
+    <script src="libs/angular-material/angular-material.min.js"></script>    
+    
+  	<!-- Jquery & JqGrid -->	 
+  	<script src="libs/jquery/external/jquery/jquery.js"></script>
+    <script src="libs/jqGrid/js/trirand/i18n/grid.locale-es.js"></script>
+    <script src="libs/jqGrid/js/trirand/jquery.jqGrid.min.js"></script>
+
+    <!-- Bootstrap JS -->    
+  	<script src="libs/bootstrap/js/bootstrap.min.js"></script> 
+	
+	<!-- JqueriUI -->   
+	<link rel="stylesheet" href="libs/jquery/jquery-ui.css">
+	<script src="libs/jquery/jquery-ui.js"></script> 
+
+	<!-- My Scripts -->	
+    <script src="scripts/grillatcs.js"></script>	
+    <script src="scripts/angular.js"></script>
+
+	<script>
+        $.jgrid.defaults.responsive = true;
+        $.jgrid.defaults.styleUI = 'Bootstrap';
+    </script>
+
+</body>
+</html>
+
+<script>
+	var dialogTransbordo;
+
+	$(function() {                                                 
+	    dialogTransbordo = $( "#dialogTransbordo" ).dialog({
+	        autoOpen: false,
+	        title: "Transbordo",
+	        height: 330,
+	        width: 600,
+	        show: {
+	          effect: "blind",
+	          duration: 1000
+	        },
+	        hide: {
+	          effect: "explode",
+	          duration: 1000
+	        },
+	        close: function(){
+	        }
+	    });  
+	});
+</script>

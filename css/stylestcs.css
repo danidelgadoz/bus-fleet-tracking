@@ -1,0 +1,182 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+  font-size: 12px;
+}
+
+#container{
+	height: 100%;
+}
+
+#section{
+	height:100%;
+}
+
+#map {
+	height: 70%; 
+  width: 100%; 
+  padding: 0px;
+}
+
+#gridPane{
+  position: fixed; 
+  height: 30%; 
+  width: 100%; /*overflow: auto;*/
+  /*background-color: cyan;*/
+}
+
+
+
+.inputdemoErrors .inputErrorsApp {
+  min-height: 48px; }
+.inputdemoErrors md-input-container > p {
+  font-size: 0.8em;
+  text-align: left;
+  width: 100%; }  
+
+
+
+/*************** BOOTSTRAP MODAL ***************/
+.modal-header, .close {
+      background-color: #004579;
+      color:white !important;
+      text-align: center;
+      /*font-size: 30px;*/
+  }
+
+
+
+/*************** INFOWINDOW GMAP ***************/
+/*
+.gm-style-iw {
+    width: 350px !important;
+    top: 15px !important;
+    left: 0px !important;
+    background-color: rgba(230, 183, 10, 0.65);
+    box-shadow: 0 1px 6px #165096;
+    border: 2px solid #E6B70A;
+    border-radius: 10px 10px 10px 10px;
+}
+*/
+.gm-style-iw {
+    width: 350px !important;
+    top: 15px !important;
+    left: 0px !important;
+    background-color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 1px 6px #165096;
+    border:2px solid rgba(22, 80, 150, 0.71);
+    border-radius: 10px 10px 10px 10px;
+}
+
+#iw-container {
+    width: 350px !important;
+    margin-bottom: 0px;
+}
+/*
+#iw-container .iw-title {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0px;
+    background-color: #004579;
+    color: rgb(251, 199, 7);
+    margin: 0;
+    border-radius: 2px 2px 0 0;
+}
+*/
+#iw-container .iw-title {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0px;
+    background-color: #004579;
+    color: rgb(251, 199, 7);
+    margin: 0;
+    border-radius: 2px 2px 0 0;
+}
+
+#iw-container .iw-content {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 400;
+    margin-right: 1px;
+    padding: 10px 10px 5px 10px;
+    min-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
+}
+
+.tableInfoW tbody tr td{
+    padding: 0px 5px 0px 5px;
+}  
+
+
+/*************** LIST NAVSIDE ***************/
+md-list-item .md-list-item-inner>div.md-primary>md-icon:not(.md-avatar-icon), md-list-item .md-list-item-inner>div.md-secondary>md-icon:not(.md-avatar-icon), md-list-item .md-list-item-inner>md-icon.md-secondary:not(.md-avatar-icon), md-list-item .md-list-item-inner>md-icon:first-child:not(.md-avatar-icon), md-list-item>div.md-primary>md-icon:not(.md-avatar-icon), md-list-item>div.md-secondary>md-icon:not(.md-avatar-icon), md-list-item>md-icon.md-secondary:not(.md-avatar-icon), md-list-item>md-icon:first-child:not(.md-avatar-icon){
+    /*width: 24px;*/
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /*box-sizing: content-box;*/
+}
+
+/*
+  md-list-item, md-list-item ._md-list-item-inner {
+    min-height: 30px;
+    height: 45px;
+  }
+*/
+
+
+/*************** JQGRID ***************/
+table > thead{
+  background-color: rgba(22, 80, 150, 0.22);/*rgba(65, 63, 181, 0.2);*/       
+  color: #165096;/*rgb(56, 66, 128); */
+}
+
+.ui-jqgrid-titlebar{
+  /*background-color: #004579;/*rgba(63, 81, 181, 0.82);rgb(63,81,181);*/
+  background: #004579 url("../libs/jquery/images/ui-bg_spotlight_35_004579_600x600.png") 50% 50% repeat-x;
+  color: white;/* #FFB300; rgba(255,255,255,0.87);    */
+  font-size: 14px;
+}
+
+.ui-jqgrid .ui-jqgrid-caption {
+    text-align: left;
+    padding: 0px 0px 0px 5px;
+}    
+
+.table>thead>tr>th {
+  padding: 2px;
+  border-color: mintcream;
+}
+
+.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
+  padding: 2px; /*celdas de la grilla*/
+}
+
+/*************** DIALOG TRANSBORDO ***************/
+.tabletransbordo>thead>tr>th, .tabletransbordo>tbody>tr>td{
+	text-align:center;
+}
+
+.tabletransbordo .row-ocupados{
+	background-color:rgb(30, 188, 77); 
+	color:aliceblue;
+}
+
+.tabletransbordo .row-libres{
+	background-color:#557ef6; 
+	color:aliceblue;
+}
+
+.tabletransbordo>tbody>tr:hover {
+	background-color: rgba(108, 111, 113, 0.17);
+}
+
